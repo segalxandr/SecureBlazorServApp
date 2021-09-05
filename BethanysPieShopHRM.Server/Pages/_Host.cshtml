@@ -5,6 +5,7 @@
 @{
     Layout = null;
 }
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,10 +14,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BethanysPieShopHRM.Server</title>
     <base href="~/" />
-    
+
     <link href="_content/BethanysPieShopHRM.App/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="_content/BethanysPieShopHRM.App/css/app.css" rel="stylesheet" />
-    
+
     <script src="https://kit.fontawesome.com/273d0585ea.js" crossorigin="anonymous"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
@@ -24,9 +25,17 @@
     <link href="_content/BethanysPieShopHRM.ComponentsLibrary/leaflet/leaflet.css" rel="stylesheet" />
 </head>
 <body>
+    @{
+        var initialTokenState = new BethanysPieShopHRM.App.Services.InitialApplicationState
+        {
+            XsrfToken = Xsrf.GetAndStoreTokens(HttpContext).RequestToken
+        };
+    }
     <app>
-        <component type="typeof(App)" render-mode="ServerPrerendered" />
+        <component type="typeof(App)" render-mode="ServerPrerendered" param-InitialState="initialTokenState" />
     </app>
+
+
 
     <div id="blazor-error-ui">
         <environment include="Staging,Production">

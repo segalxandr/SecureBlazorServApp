@@ -1,3 +1,18 @@
+@inject BethanysPieShopHRM.App.Services.TokenProvider TokenProvider
+
+@code
+{
+    [Parameter]
+    public BethanysPieShopHRM.App.Services.InitialApplicationState InitialState { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        TokenProvider.XsrfToken = InitialState.XsrfToken;
+        return base.OnInitializedAsync();
+    }
+}
+
+
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
